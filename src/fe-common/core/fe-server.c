@@ -24,7 +24,6 @@
 #include "network.h"
 #include "levels.h"
 #include "settings.h"
-#include "net-sendbuffer.h"
 
 #include "chat-protocols.h"
 #include "chatnets.h"
@@ -332,23 +331,6 @@ static void sig_server_connecting(SERVER_REC *server, IPADDR *ip)
 static void sig_server_connected(SERVER_REC *server)
 {
 	g_return_if_fail(server != NULL);
-
-	if (server->connrec->use_tls)
-	{
-		GIOSSLChannel *chan = (GIOSSLChannel *)net_sendbuffer_handle(server->handle);
-
-		g_return_if_fail(chan != NULL);
-
-		const char *tls_version = SSL_get_version(chan->ssl);
-		const char *tls_cipher = SSL_CIPHER_get_name(SSL_get_current_cipher(chan->ssl));
-
-		printformat(server, NULL, MSGLEVEL_CLIENTNOTICE, TXT_ENCRYPTED_CONNECTION_ESTABLISHED,
-				server->connrec->address,
-				tls_version,
-				tls_cipher);
-
-		return;
-	}
 
 	printformat(server, NULL, MSGLEVEL_CLIENTNOTICE, TXT_CONNECTION_ESTABLISHED, server->connrec->address);
 }

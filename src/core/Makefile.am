@@ -17,8 +17,8 @@ libcore_a_SOURCES = \
 	chatnets.c \
 	core.c \
 	expandos.c \
-        ignore.c \
-        levels.c \
+	ignore.c \
+	levels.c \
 	line-split.c \
 	log.c \
 	log-away.c \
@@ -44,6 +44,7 @@ libcore_a_SOURCES = \
 	settings.c \
 	signals.c \
 	special-vars.c \
+	tls.c \
 	write-buffer.c
 
 structure_headers = \
@@ -66,8 +67,8 @@ pkginc_core_HEADERS = \
 	chatnets.h \
 	core.h \
 	expandos.h \
-        ignore.h \
-        levels.h \
+	ignore.h \
+	levels.h \
 	line-split.h \
 	log.h \
 	masks.h \
@@ -94,5 +95,6 @@ pkginc_core_HEADERS = \
 	signals.h \
 	special-vars.h \
 	window-item-def.h \
+	tls.h \
 	write-buffer.h \
 	$(structure_headers)
