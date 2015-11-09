@@ -5,8 +5,15 @@ perl:
     - "5.18-shrplib"
     - "system-perl"
 env:
-    - CC=clang
-    - CC=gcc
+    matrix:
+        - CC=clang
+        - CC=gcc
+    global:
+        - secure: "b/J+omhOWrx0C1KFuhhOavjcSoiesqsCo+g4ThX3zyWjoFRusMK3t1JWtU3ceNpnE6O+OSrDzyjRaKLE2Gygw6ZykoB6aDHmpJNtmH+7eyZPRUCBIILp5EbD7P9KaTwUh8AUTIBGxrSd6Ll+TQFtCPzuvW5URpeUBrpcvdzLrv4="
+        - COVERITY_SCAN_PROJECT_NAME=irssi/irssi
+        - COVERITY_SCAN_NOTIFICATION_EMAIL=nope
+        - COVERITY_SCAN_BUILD_COMMAND=make
+        - COVERITY_SCAN_BRANCH_PATTERN=coverity_scan
 
 addons:
     apt:
@@ -22,5 +29,9 @@ install: true
 script:
     - ./autogen.sh --with-proxy --with-bot --with-perl=module --prefix=$HOME/irssi-build
     - cat config.log
+    - |
+      if [[ "${TRAVIS_JOB_NUMBER##*.}" == "1" ]]; then
+          curl -s "https://scan.coverity.com/scripts/travisci_build_coverity_scan.sh" | bash || true
+      fi
     - make CFLAGS="-Wall -Werror"
     - make install
