@@ -121,4 +121,7 @@ int find_substr(const char *list, const char *item);
 /* split `str' into `len' sized substrings */
 char **strsplit_len(const char *str, int len, gboolean onspace);
 
+/* expand environment variables in a path*/
+char *expand_envvars(const char *path);
+
 #endif
