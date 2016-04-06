@@ -75,7 +75,7 @@ static void log_write_timestamp(int handle, const char *format,
 
 static char *log_filename(LOG_REC *log)
 {
-	char *str, fname[1024];
+	char *str, *str2, fname[1024];
 	struct tm *tm;
         size_t ret;
 	time_t now;
@@ -84,8 +84,10 @@ static char *log_filename(LOG_REC *log)
 	tm = localtime(&now);
 
 	str = convert_home(log->fname);
-	ret = strftime(fname, sizeof(fname), str, tm);
+	str2 = expand_envvars(str);
+	ret = strftime(fname, sizeof(fname), str2, tm);
 	g_free(str);
+	g_free(str2);
 
 	if (ret <= 0) {
 		g_warning("log_filename() : strftime() failed");
